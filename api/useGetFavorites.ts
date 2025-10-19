@@ -1,7 +1,7 @@
 import { SUB_ID } from "@/constants/api";
 import { useQuery } from "@tanstack/react-query";
 
-export const useGetCatImages = () => {
+export const useGetFavorites = () => {
     const query = useQuery({
         queryKey: getCatImagesQueryKey(),
         queryFn: async () => {
