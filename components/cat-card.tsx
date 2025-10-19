@@ -8,16 +8,18 @@ import Animated, {
     useSharedValue,
     withSpring,
 } from "react-native-reanimated";
+import { scheduleOnRN } from "react-native-worklets";
 import { ThemedText } from "./themed-text";
 import { ThemedView } from "./themed-view";
 
 export interface CatCardProps {
     cat: Cat;
     index: number;
+    nextbatch?: () => void;
     // removeCatFromArray: (catId: string) => void;
 }
 
-const CatCard = ({ cat, index }: CatCardProps) => {
+const CatCard = ({ cat, index, nextbatch }: CatCardProps) => {
     const offset = useSharedValue({ x: 0 });
     const opacity = useSharedValue(1);
     const gesture = Gesture.Pan()
@@ -38,6 +40,9 @@ const CatCard = ({ cat, index }: CatCardProps) => {
             // scheduleOnRN(goToNextCat);
             if (Math.abs(offset.value.x) > 20) {
                 //add cat to favorites if swiped right
+            }
+            if (nextbatch) {
+                scheduleOnRN(nextbatch);
             }
         });
     const animatedStyles = useAnimatedStyle(() => {

@@ -1,10 +1,11 @@
 import React from "react";
-import { StyleSheet } from "react-native";
+import { ActivityIndicator, StyleSheet } from "react-native";
 import CatCard from "./cat-card";
+import { ThemedView } from "./themed-view";
 export interface ImageSwitchableProps {
     cats: CatData[];
-    nextCat: () => void;
     isPending: boolean;
+    nextBatch?: () => void;
 }
 
 export interface CatData {
@@ -17,25 +18,37 @@ export interface CatData {
     }[];
 }
 
-const ImageSwiper = ({ cats, nextCat, isPending }: ImageSwitchableProps) => {
-    // const [remainingCats, setRemainingCats] = useState<CatData[]>([...cats]);
-
-    // const removeCatFromArray = (catId: string) => {
-    //     setRemainingCats((current) =>
-    //         current.filter((cat) => cat.id !== catId)
-    //     );
-    //     nextCat(); // Call the parent's nextCat function to fetch more data if needed
-    // };
+const ImageSwiper = ({ cats, isPending, nextBatch }: ImageSwitchableProps) => {
+    if (isPending) {
+        return (
+            <ThemedView
+                style={[styles.container, { justifyContent: "center" }]}
+            >
+                <ActivityIndicator size={40} />
+            </ThemedView>
+        );
+    }
     return (
-        <>
+        <ThemedView style={styles.container}>
             {cats
                 .map((cat, index) => {
-                    return <CatCard cat={cat} index={index} key={cat.id} />;
+                    return (
+                        <CatCard
+                            cat={cat}
+                            index={index}
+                            key={cat.id}
+                            nextbatch={
+                                index === cats.length - 1
+                                    ? nextBatch
+                                    : undefined
+                            }
+                        />
+                    );
                 })
                 .reverse()}
 
             {/* <CatCard cat={cat} /> */}
-        </>
+        </ThemedView>
     );
 };
 
@@ -44,8 +57,8 @@ export default ImageSwiper;
 const styles = StyleSheet.create({
     container: {
         flex: 4,
-        position: "absolute",
-        width: "100%",
         height: "100%",
+        paddingHorizontal: 16,
+        alignItems: "center",
     },
 });
