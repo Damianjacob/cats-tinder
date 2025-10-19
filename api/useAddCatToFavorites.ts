@@ -2,7 +2,6 @@ import { SUB_ID } from "@/constants/api";
 import { useMutation } from "@tanstack/react-query";
 
 export const useAddCatToFavorites = () => {
-    console.log("useAddCatToFavorites called");
     const mutation = useMutation({
         mutationFn: async (imageId: string) => {
             const response = await fetch(
@@ -10,6 +9,7 @@ export const useAddCatToFavorites = () => {
                 {
                     method: "POST",
                     headers: {
+                        "Content-Type": "application/json",
                         "x-api-key": process.env.EXPO_PUBLIC_API_KEY ?? "",
                     },
                     body: JSON.stringify({
@@ -18,6 +18,7 @@ export const useAddCatToFavorites = () => {
                     }),
                 }
             );
+
             if (!response.ok) {
                 throw new Error("Network response was not ok");
             }

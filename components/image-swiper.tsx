@@ -6,6 +6,8 @@ export interface ImageSwitchableProps {
     cats: CatData[];
     isPending: boolean;
     addToFavorites: (catID: string) => void;
+    removeFirstCat: () => void;
+    currentCatIndex: number;
     nextBatch?: () => void;
 }
 
@@ -24,6 +26,7 @@ const ImageSwiper = ({
     isPending,
     addToFavorites,
     nextBatch,
+    removeFirstCat,
 }: ImageSwitchableProps) => {
     if (isPending) {
         return (
@@ -49,6 +52,7 @@ const ImageSwiper = ({
                                     ? nextBatch
                                     : undefined
                             }
+                            removeFirstCat={removeFirstCat}
                         />
                     );
                 })

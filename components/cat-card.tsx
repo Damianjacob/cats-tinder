@@ -16,10 +16,17 @@ export interface CatCardProps {
     cat: Cat;
     index: number;
     addToFavorites: (catID: string) => void;
+    removeFirstCat: () => void;
     nextbatch?: () => void;
 }
 
-const CatCard = ({ cat, index, nextbatch, addToFavorites }: CatCardProps) => {
+const CatCard = ({
+    cat,
+    index,
+    nextbatch,
+    addToFavorites,
+    removeFirstCat,
+}: CatCardProps) => {
     const offset = useSharedValue({ x: 0 });
     const opacity = useSharedValue(1);
     const gesture = Gesture.Pan()
@@ -45,6 +52,7 @@ const CatCard = ({ cat, index, nextbatch, addToFavorites }: CatCardProps) => {
             if (nextbatch) {
                 scheduleOnRN(nextbatch);
             }
+            scheduleOnRN(removeFirstCat);
         });
     const animatedStyles = useAnimatedStyle(() => {
         return {

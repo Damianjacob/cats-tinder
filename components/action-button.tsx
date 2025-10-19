@@ -1,6 +1,6 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import React from "react";
-import { Pressable, StyleSheet } from "react-native";
+import { StyleSheet, TouchableOpacity } from "react-native";
 import { ThemedView } from "./themed-view";
 
 type ActionButtonProps = {
@@ -15,7 +15,7 @@ export default function ActionButton({
     onPress,
 }: ActionButtonProps) {
     return (
-        <Pressable onPress={onPress}>
+        <TouchableOpacity onPress={onPress}>
             <ThemedView style={styles.buttonContainer}>
                 <MaterialCommunityIcons
                     name={iconName}
@@ -23,7 +23,7 @@ export default function ActionButton({
                     color={color}
                 />
             </ThemedView>
-        </Pressable>
+        </TouchableOpacity>
     );
 }
 
