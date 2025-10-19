@@ -1,7 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
+import { Cat } from "../types/cat";
 
 export const useGetCatImages = () => {
-    const query = useQuery({
+    const query = useQuery<Cat[]>({
         queryKey: getCatImagesQueryKey(),
         queryFn: async () => {
             const response = await fetch(

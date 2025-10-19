@@ -1,13 +1,20 @@
-import { StyleSheet } from "react-native";
+import { Button, StyleSheet } from "react-native";
 
 import { useGetCatImages } from "@/api/useGetCatImages";
 import ImageSwiper from "@/components/image-swiper";
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
+import { useState } from "react";
 
 export default function HomeScreen() {
     const { isPending, data, refetch } = useGetCatImages();
-    console.log(data);
+    const [currentCatIndex, setCurrentCatIndex] = useState(0);
+
+    if (data && currentCatIndex > data.length - 1) {
+        refetch();
+        setCurrentCatIndex(0);
+    }
+    console.log("current cat index:", currentCatIndex);
 
     return (
         <ThemedView style={styles.mainContainer}>
@@ -15,11 +22,27 @@ export default function HomeScreen() {
                 <ThemedView style={{ flex: 1 }}>
                     <ThemedText>Placeholder for top switcher</ThemedText>
                 </ThemedView>
-                <ImageSwiper imageUrl="https://cdn2.thecatapi.com/images/0XYvRd7oD.jpg" />
+
+                {data && data.length > 0 && (
+                    <ImageSwiper
+                        cats={data}
+                        nextCat={() => {
+                            console.log("next cat");
+                            setCurrentCatIndex((prev) => prev + 1);
+                        }}
+                        isPending={isPending}
+                    />
+                )}
             </ThemedView>
             <ThemedView style={{ flex: 1 }}>
                 <ThemedText>Placeholder for buttons</ThemedText>
             </ThemedView>
+            <Button
+                title="next cat "
+                onPress={() => {
+                    setCurrentCatIndex((prev) => prev + 1);
+                }}
+            />
         </ThemedView>
     );
 }
