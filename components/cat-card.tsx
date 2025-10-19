@@ -15,11 +15,11 @@ import { ThemedView } from "./themed-view";
 export interface CatCardProps {
     cat: Cat;
     index: number;
+    addToFavorites: (catID: string) => void;
     nextbatch?: () => void;
-    // removeCatFromArray: (catId: string) => void;
 }
 
-const CatCard = ({ cat, index, nextbatch }: CatCardProps) => {
+const CatCard = ({ cat, index, nextbatch, addToFavorites }: CatCardProps) => {
     const offset = useSharedValue({ x: 0 });
     const opacity = useSharedValue(1);
     const gesture = Gesture.Pan()
@@ -38,8 +38,9 @@ const CatCard = ({ cat, index, nextbatch }: CatCardProps) => {
         })
         .onFinalize(() => {
             // scheduleOnRN(goToNextCat);
-            if (Math.abs(offset.value.x) > 20) {
+            if (offset.value.x > 20) {
                 //add cat to favorites if swiped right
+                scheduleOnRN(addToFavorites, cat.id);
             }
             if (nextbatch) {
                 scheduleOnRN(nextbatch);

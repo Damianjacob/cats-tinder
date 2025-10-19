@@ -1,5 +1,6 @@
 import { ActivityIndicator, StyleSheet } from "react-native";
 
+import { useAddCatToFavorites } from "@/api/useAddCatToFavorites";
 import { useGetCatImages } from "@/api/useGetCatImages";
 import ImageSwiper from "@/components/image-swiper";
 import { ThemedText } from "@/components/themed-text";
@@ -7,13 +8,17 @@ import { ThemedView } from "@/components/themed-view";
 
 export default function HomeScreen() {
     const { isPending, data, refetch } = useGetCatImages();
+    const { mutate } = useAddCatToFavorites();
     // const [currentCatIndex, setCurrentCatIndex] = useState(0);
+
+    const addToFavorites = (catID: string) => {
+        mutate(catID);
+    };
 
     // if (data && currentCatIndex > data.length - 1) {
     //     refetch();
     //     setCurrentCatIndex(0);
     // }
-    console.log("ispending:", isPending);
     return (
         <ThemedView style={styles.mainContainer}>
             <ThemedView style={{ flex: 2 }}>
@@ -31,6 +36,7 @@ export default function HomeScreen() {
                             console.log("fetching next batch");
                             refetch();
                         }}
+                        addToFavorites={addToFavorites}
                     />
                 )}
                 {/* )} */}

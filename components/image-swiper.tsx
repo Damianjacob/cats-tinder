@@ -5,6 +5,7 @@ import { ThemedView } from "./themed-view";
 export interface ImageSwitchableProps {
     cats: CatData[];
     isPending: boolean;
+    addToFavorites: (catID: string) => void;
     nextBatch?: () => void;
 }
 
@@ -18,7 +19,12 @@ export interface CatData {
     }[];
 }
 
-const ImageSwiper = ({ cats, isPending, nextBatch }: ImageSwitchableProps) => {
+const ImageSwiper = ({
+    cats,
+    isPending,
+    addToFavorites,
+    nextBatch,
+}: ImageSwitchableProps) => {
     if (isPending) {
         return (
             <ThemedView
@@ -35,6 +41,7 @@ const ImageSwiper = ({ cats, isPending, nextBatch }: ImageSwitchableProps) => {
                     return (
                         <CatCard
                             cat={cat}
+                            addToFavorites={addToFavorites}
                             index={index}
                             key={cat.id}
                             nextbatch={
