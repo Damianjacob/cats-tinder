@@ -3,13 +3,13 @@ import React from "react";
 
 import { Colors } from "@/constants/theme";
 import { useColorScheme } from "@/hooks/use-color-scheme";
+import Providers from "@/providers/providers";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
 export default function TabLayout() {
     const colorScheme = useColorScheme();
 
     return (
-        <GestureHandlerRootView>
+        <Providers>
             <Tabs
                 screenOptions={{
                     tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
@@ -74,6 +74,6 @@ export default function TabLayout() {
                     }}
                 />
             </Tabs>
-        </GestureHandlerRootView>
+        </Providers>
     );
 }

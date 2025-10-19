@@ -1,10 +1,14 @@
 import { StyleSheet } from "react-native";
 
+import { useGetCatImages } from "@/api/useGetCatImages";
 import ImageSwiper from "@/components/image-swiper";
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
 
 export default function HomeScreen() {
+    const { isPending, data, refetch } = useGetCatImages();
+    console.log(data);
+
     return (
         <ThemedView style={styles.mainContainer}>
             <ThemedView style={{ flex: 2 }}>
