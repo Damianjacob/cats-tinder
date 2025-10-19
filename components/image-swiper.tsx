@@ -7,12 +7,21 @@ import Animated, {
     useSharedValue,
     withSpring,
 } from "react-native-reanimated";
+import { ThemedText } from "./themed-text";
 import { ThemedView } from "./themed-view";
 export interface ImageSwitchableProps {
     imageUrl: string;
+    // age: string;
+    // race: string;
+    // country: string;
 }
 
-const ImageSwiper = ({ imageUrl }: ImageSwitchableProps) => {
+const ImageSwiper = ({
+    imageUrl,
+}: // race,
+// age,
+// country,
+ImageSwitchableProps) => {
     const offset = useSharedValue({ x: 0 });
 
     const gesture = Gesture.Pan()
@@ -54,6 +63,32 @@ const ImageSwiper = ({ imageUrl }: ImageSwitchableProps) => {
                         }}
                         resizeMode="cover"
                     />
+                    <ThemedView style={styles.infoCard}>
+                        <ThemedView
+                            style={[
+                                styles.row,
+                                {
+                                    borderTopLeftRadius: 16,
+                                    borderTopRightRadius: 16,
+                                },
+                            ]}
+                        >
+                            <ThemedText style={styles.headerText}>
+                                {/* {race} */}
+                                Race ph
+                            </ThemedText>
+                            <ThemedText style={styles.headerText}>
+                                {/* {age} */}
+                                age ph
+                            </ThemedText>
+                        </ThemedView>
+                        <ThemedView style={styles.row}>
+                            <ThemedText style={styles.descriptionText}>
+                                {/* {country} */}
+                                country ph
+                            </ThemedText>
+                        </ThemedView>
+                    </ThemedView>
                 </ThemedView>
             </Animated.View>
         </GestureDetector>
@@ -65,9 +100,36 @@ export default ImageSwiper;
 const styles = StyleSheet.create({
     container: {
         flex: 4,
-        backgroundColor: "red",
+        // backgroundColor: "red",
+        // elevation: 4,
     },
     cardContainer: {
         margin: 16,
+        backgroundColor: "blue",
+        elevation: 4,
+        borderRadius: 16,
+    },
+    row: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        paddingHorizontal: 12,
+        paddingVertical: 2,
+    },
+    headerText: {
+        fontWeight: "bold",
+        fontSize: 16,
+    },
+    descriptionText: {
+        fontSize: 12,
+        color: Colors.light.textSecondary,
+    },
+
+    infoCard: {
+        position: "absolute",
+        zIndex: 10,
+        bottom: 0,
+        left: 16,
+        right: 16,
+        borderRadius: 16,
     },
 });
